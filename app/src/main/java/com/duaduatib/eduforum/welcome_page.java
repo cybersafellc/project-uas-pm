@@ -28,7 +28,6 @@ public class welcome_page extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(welcome_page.this, "Login Button Clicked", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(),login_page.class);
                 startActivity(i);
             }
@@ -38,7 +37,6 @@ public class welcome_page extends AppCompatActivity {
         btnLoginGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(welcome_page.this, "Login With Google Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -46,7 +44,6 @@ public class welcome_page extends AppCompatActivity {
         textRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(welcome_page.this, "Navigate to Registration", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(),choose_role_page.class);
                 startActivity(i);
             }
