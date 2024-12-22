@@ -29,7 +29,7 @@ public class choose_role_page extends AppCompatActivity {
         btnMahasiswa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(choose_role_page.this, "Mahasiswa Button Clicked", Toast.LENGTH_SHORT).show();
+
                 Intent i = new Intent(getApplicationContext(),daftar_mahasiswa_page.class);
                 startActivity(i);
             }
@@ -39,7 +39,7 @@ public class choose_role_page extends AppCompatActivity {
         btnDosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(choose_role_page.this, "Dosen Button Clicked", Toast.LENGTH_SHORT).show();
+
                 Intent i = new Intent(getApplicationContext(),daftar_dosen_page.class);
                 startActivity(i);
             }
@@ -49,7 +49,7 @@ public class choose_role_page extends AppCompatActivity {
         punyaAkunTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(choose_role_page.this, "Navigate to Login Page", Toast.LENGTH_SHORT).show();
+
                 Intent i = new Intent(getApplicationContext(),login_page.class);
                 startActivity(i);
             }
