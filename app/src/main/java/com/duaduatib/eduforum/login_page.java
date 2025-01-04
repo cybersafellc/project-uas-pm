@@ -1,5 +1,7 @@
 package com.duaduatib.eduforum;
 
+import static com.duaduatib.eduforum.service.ApiClient.retrofit;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +12,25 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.duaduatib.eduforum.model.Authentikasi;
+import com.duaduatib.eduforum.model.Dosen;
+import com.duaduatib.eduforum.service.ApiService;
+import com.duaduatib.eduforum.service.ApiClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class login_page extends AppCompatActivity {
 
     // Deklarasi komponen
     private Button btnLogin;
     private TextView textRegister;
     private EditText editUsername, editPassword;
+
+    Retrofit retrofit;
+    ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,59 +43,44 @@ public class login_page extends AppCompatActivity {
         editUsername = findViewById(R.id.inputUsername);
         editPassword = findViewById(R.id.inputPassword);
 
+        retrofit = ApiClient.getRetrofitInstance();
+        apiService = retrofit.create(ApiService.class);
+
         // Aksi ketika tombol Login ditekan
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = editUsername.getText().toString();
-                final String password = editPassword.getText().toString();
-                if (username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(login_page.this, "Isi semua field", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Perform query
-                    DatabaseEduForum databaseEduForum = DatabaseEduForum.getDatabaseEduForum(getApplicationContext());
-                    final DosenDao dosenDao = databaseEduForum.dosenDao();
-                    final MhsDao mhsDao = databaseEduForum.mhsDao(); // Tambahkan mhsDao
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Cek login Dosen
-                            EntitasDosen entitasDosen = dosenDao.login(username, password);
-                            if (entitasDosen == null) {
-                                // Jika username/password tidak cocok di Dosen, cek di MhsDao
-                                EntitasMhs entitasMhs = mhsDao.login(username, password);
-                                if (entitasMhs == null) {
-                                    // Jika juga tidak ditemukan di MhsDao
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(login_page.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                } else {
-                                    // Jika cocok di MhsDao (Mahasiswa)
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(login_page.this, "Login Mahasiswa Berhasil!", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(login_page.this, beranda.class));
-                                        }
-                                    });
-                                }
-                            } else {
-                                // Jika cocok di DosenDao
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(login_page.this, "Login Dosen Berhasil!", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(login_page.this, beranda.class));
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
+                Authentikasi login = new Authentikasi();
+                login.setUsername(editUsername.getText().toString());
+                login.setPassword(editPassword.getText().toString());
+
+                if (!validateInput(login)) {
+                    Toast.makeText(login_page.this, "Semua field harus diisi", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                // Melakukan POST data
+                Call<Authentikasi> call = apiService.authentikasiAuth(login);
+                call.enqueue(new Callback<Authentikasi>() {
+                    @Override
+                    public void onResponse(Call<Authentikasi> call, Response<Authentikasi> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(login_page.this, "Login berhasil!", Toast.LENGTH_SHORT).show();
+
+                            // Navigasi ke halaman berikutnya jika perlu
+                            Intent intent = new Intent(login_page.this, beranda.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(login_page.this, "Login gagal: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Authentikasi> call, Throwable t) {
+                        Toast.makeText(login_page.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -93,5 +93,10 @@ public class login_page extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private Boolean validateInput(Authentikasi login) {
+        return !login.getUsername().isEmpty() &&
+                !login.getPassword().isEmpty();
     }
 }
