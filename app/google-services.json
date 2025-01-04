@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "552253786125",
+    "project_id": "edu-forum-4cf15",
+    "storage_bucket": "edu-forum-4cf15.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552253786125:android:6d10024f9e7cdc091cad44",
+        "android_client_info": {
+          "package_name": "com.duaduatib.eduforum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552253786125-7c4mucd8rcc5ult68aeubq42k4ep008j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.duaduatib.eduforum",
+            "certificate_hash": "8bb9a843815b848e398794871662a6856e812072"
+          }
+        },
+        {
+          "client_id": "552253786125-6or9tqu3b37009vkkoa55pctm8f381en.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDrx21c0Gq88iAlyJI-o4GZr6LdlD-0Ms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552253786125-6or9tqu3b37009vkkoa55pctm8f381en.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

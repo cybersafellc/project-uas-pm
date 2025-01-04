@@ -15,15 +15,17 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/fotoProfil"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="32dp"
+                android:layout_gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textProfil"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:background="@drawable/circle_shape"
+                android:scaleType="centerCrop" />
 
             <ImageButton
                 android:id="@+id/backButton"
@@ -59,7 +61,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/fotoProfil" />
 
             <EditText
                 android:id="@+id/editNamaLengkap"
@@ -99,6 +101,17 @@
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editNIM" />
+
+            <Button
+                android:id="@+id/btnSimpanEditProfil"
+                android:layout_width="250dp"
+                android:layout_height="70dp"
+                android:text="Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editAsalPT"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#2B87FF"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
