@@ -9,9 +9,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.duaduatib.eduforum.model.Mahasiswa;
+import com.duaduatib.eduforum.service.ApiService;
+import com.duaduatib.eduforum.service.ApiClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class daftar_mahasiswa_page extends AppCompatActivity {
 
     // Deklarasi komponen
+    Retrofit retrofit;
+    ApiService apiService;
+
     private Button btnDaftarMhs;
     private EditText usernameMhs, passwordMhs, namaLengkapMhs;
     private EditText NIM, perguruanTinggiMhs;
@@ -29,54 +41,56 @@ public class daftar_mahasiswa_page extends AppCompatActivity {
         NIM = findViewById(R.id.inputNIMDaftarMhs);
         perguruanTinggiMhs = findViewById(R.id.inputPerguruanTinggiDaftarMhs);
 
+        retrofit = ApiClient.getRetrofitInstance();
+        apiService = retrofit.create(ApiService.class);
+
         // Aksi ketika tombol Daftar ditekan
         btnDaftarMhs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Mahasiswa mahasiswa = new Mahasiswa();
+                mahasiswa.setUsername(usernameMhs.getText().toString().trim());
+                mahasiswa.setPassword(passwordMhs.getText().toString().trim());
+                mahasiswa.setFull_name(namaLengkapMhs.getText().toString().trim());
+                mahasiswa.setNidn_or_nim(NIM.getText().toString().trim());
+                mahasiswa.setNama_perguruan_tinggi(perguruanTinggiMhs.getText().toString().trim());
 
-                //Creating Mhs Entity
-                EntitasMhs entitasMhs =new EntitasMhs();
-                entitasMhs.setUsernameMhs(usernameMhs.getText().toString());
-                entitasMhs.setPasswordMhs(passwordMhs.getText().toString());
-                entitasMhs.setNamaLengkapMhs(namaLengkapMhs.getText().toString());
-                entitasMhs.setNIM(NIM.getText().toString());
-                entitasMhs.setPerguruanTinggiMhs(perguruanTinggiMhs.getText().toString());
-                if (validateInput(entitasMhs)) {
-                    //Do insert operation
-                    DatabaseEduForum databaseEduForum = DatabaseEduForum.getDatabaseEduForum(getApplicationContext());
-                    final MhsDao mhsDao = databaseEduForum.mhsDao();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Register user
-                            mhsDao.registerMhs(entitasMhs);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), "User registered", Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(getApplicationContext(),login_page.class);
-                                    startActivity(i);
-                                }
-                            });
-                        }
-                    }).start();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Isi semua field data", Toast.LENGTH_SHORT).show();
+                if (!validateInput(mahasiswa)) {
+                    Toast.makeText(daftar_mahasiswa_page.this, "Semua field harus diisi", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                // Melakukan POST data
+                Call<Mahasiswa> call = apiService.registerMahasiswa(mahasiswa);
+                call.enqueue(new Callback<Mahasiswa>() {
+                    @Override
+                    public void onResponse(Call<Mahasiswa> call, Response<Mahasiswa> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(daftar_mahasiswa_page.this, "Pendaftaran berhasil!", Toast.LENGTH_SHORT).show();
+
+                            // Navigasi ke halaman berikutnya jika perlu
+                            Intent intent = new Intent(daftar_mahasiswa_page.this, login_page.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(daftar_mahasiswa_page.this, "Pendaftaran gagal: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Mahasiswa> call, Throwable t) {
+                        Toast.makeText(daftar_mahasiswa_page.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
-    private Boolean validateInput(EntitasMhs entitasMhs) {
-        if (entitasMhs.getUsernameMhs().isEmpty() ||
-                entitasMhs.getPasswordMhs().isEmpty() ||
-                entitasMhs.getNamaLengkapMhs().isEmpty() ||
-                entitasMhs.getNIM().isEmpty() ||
-                entitasMhs.getPerguruanTinggiMhs().isEmpty()
-        ) {
-            return false;
-        }
-        return true;
+    private Boolean validateInput(Mahasiswa mahasiswa) {
+        return !mahasiswa.getUsername().isEmpty() &&
+                !mahasiswa.getPassword().isEmpty() &&
+                !mahasiswa.getFull_name().isEmpty() &&
+                !mahasiswa.getNidn_or_nim().isEmpty() &&
+                !mahasiswa.getNama_perguruan_tinggi().isEmpty();
     }
 }
-
