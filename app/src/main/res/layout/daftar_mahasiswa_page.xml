@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F7FA">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="84dp"
                 android:text="Daftar Mahasiswa"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +36,7 @@
                 android:text="Pastikan data yang anda inputkan
 \nSesuai dengan data PDDIKTI
 \nhttps://pddikti.kemdikbud.go.id/"
+                android:textColor="@color/dark_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +50,8 @@
                 android:ems="10"
                 android:inputType="text"
                 android:hint="Username"
+                android:textColor="@color/black"
+                android:textColorHint="@color/light_grey"
                 android:background="@drawable/input_bg"
                 android:padding="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +65,8 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
+                android:textColor="@color/black"
+                android:textColorHint="@color/light_grey"
                 android:inputType="textPassword"
                 android:hint="Password"
                 android:background="@drawable/input_bg"
@@ -74,6 +81,8 @@
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/light_grey"
                 android:ems="10"
                 android:inputType="text"
                 android:hint="Nama Lengkap"
@@ -88,6 +97,8 @@
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/light_grey"
                 android:ems="10"
                 android:inputType="text"
                 android:hint="NIM"
@@ -104,6 +115,8 @@
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="@color/light_grey"
                 android:hint="Perguruan Tinggi"
                 android:background="@drawable/input_bg"
                 android:padding="5dp"
@@ -119,6 +132,7 @@
                 android:layout_marginTop="20dp"
                 android:text="Daftar"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 android:backgroundTint="#2B87FF"
                 app:layout_constraintTop_toBottomOf="@+id/inputPerguruanTinggiDaftarMhs" />

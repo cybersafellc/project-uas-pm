@@ -1,5 +1,7 @@
 package com.duaduatib.eduforum.model;
 
+import java.util.List;
+
 public class ApiResponse {
     private int status;
     private String message;

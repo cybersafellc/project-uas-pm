@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F7FA">
 
     <TextView
         android:id="@+id/pilihPengguna"
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="264dp"
         android:text="Pilih Akun Pengguna,"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +26,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/bluish"
         android:text="Mahasiswa"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +38,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="4dp"
         android:backgroundTint="#2B87FF"
+        android:textColor="@color/white"
         android:text="Dosen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
