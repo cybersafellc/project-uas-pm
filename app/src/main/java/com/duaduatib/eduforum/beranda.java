@@ -106,6 +106,8 @@ public class beranda extends AppCompatActivity {
             Intent intent = new Intent(beranda.this, profil_user.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.menu_add_post) {
+            return true;
         } else if (id == R.id.menu_logout) {
             logout();
             return true;
