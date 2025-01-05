@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.duaduatib.eduforum.model.Comment;
+import com.duaduatib.eduforum.model.Answer;
 import com.duaduatib.eduforum.model.Post;
 import com.duaduatib.eduforum.model.PostResponse;
 import com.duaduatib.eduforum.service.ApiService;
@@ -31,10 +31,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DetailPostActivity extends AppCompatActivity {
 
-    private RecyclerView commentsRecyclerView;
-    private CommentsAdapter commentsAdapter;
-    private List<Comment> commentList = new ArrayList<>();
-
+    private RecyclerView answersRecyclerView;
+    private AnswersAdapter answersAdapter;
+    private List<Answer> answersList = new ArrayList<>();
 
     private TextView titleTextView, contentTextView, usernameTextView, roleTextView, likeCountTextView, commentCountTextView;
     private ImageView postImageView, profileImageView;
@@ -49,10 +48,10 @@ public class DetailPostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_post);
 
         // Inisialisasi RecyclerView
-        commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
-        commentsAdapter = new CommentsAdapter(commentList);
-        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        commentsRecyclerView.setAdapter(commentsAdapter);
+        answersRecyclerView = findViewById(R.id.answersRecyclerView);
+        answersAdapter = new AnswersAdapter(answersList);
+        answersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        answersRecyclerView.setAdapter(answersAdapter);
 
         // Initialize views
         titleTextView = findViewById(R.id.titleTextView);
@@ -89,9 +88,6 @@ public class DetailPostActivity extends AppCompatActivity {
 
         apiService = retrofit.create(ApiService.class);
 
-        // Fetch comments
-        fetchComments(postId);
-
         // Fetch post details
         fetchPostDetails(postId);
     }
@@ -106,6 +102,13 @@ public class DetailPostActivity extends AppCompatActivity {
                     Post post = response.body().getData(); // Ambil objek Post dari respons
                     Log.d("Post Debug", "Post: " + new Gson().toJson(post));
                     populatePostDetails(post);
+
+                    // Ambil daftar answers dan update adapter
+                    if (post.getAnswers() != null) {
+                        answersList.clear();
+                        answersList.addAll (post.getAnswers());
+                        answersAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     Log.e("API Error", "Response unsuccessful or body null");
                 }
@@ -146,27 +149,5 @@ public class DetailPostActivity extends AppCompatActivity {
 
         likeCountTextView.setText(post.getCount_like() + " likes");
         commentCountTextView.setText(post.getCount_answers() + " comments");
-    }
-
-    private void fetchComments(String postId) {
-        Call<List<Comment>> call = apiService.getPostComments(postId);
-
-        call.enqueue(new Callback<List<Comment>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Comment>> call, @NonNull Response<List<Comment>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    commentList.clear();
-                    commentList.addAll(response.body());
-                    commentsAdapter.notifyDataSetChanged();
-                } else {
-                    Log.e("API Error", "Unable to fetch comments");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Comment>> call, @NonNull Throwable t) {
-                Log.e("API Error", "Failure: " + t.getMessage());
-            }
-        });
     }
 }

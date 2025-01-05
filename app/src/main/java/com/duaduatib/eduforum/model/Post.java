@@ -1,5 +1,8 @@
 package com.duaduatib.eduforum.model;
 
+import java.util.Collection;
+import java.util.List;
+
 public class Post {
     private String id;
     private String img_url;
@@ -10,6 +13,7 @@ public class Post {
     private String create_at;
     private String update_at;
     private User user;
+    private List<Answer> answers;
 
     public String getId() {
         return id;
@@ -81,5 +85,13 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Collection<? extends Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 }

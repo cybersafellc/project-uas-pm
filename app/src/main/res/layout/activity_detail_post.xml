@@ -110,10 +110,18 @@
                 android:layout_marginTop="8dp">
 
                 <!-- Like Count -->
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+
+                    android:src="@drawable/thumb_up_24"
+                    android:layout_gravity="center"/>
+
                 <TextView
                     android:id="@+id/likeCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
                     android:text="0 likes"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
@@ -124,21 +132,27 @@
                     android:layout_height="wrap_content" />
 
                 <!-- Comment Count -->
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/comment_24"
+                    android:layout_gravity="center"/>
+
                 <TextView
                     android:id="@+id/commentCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 comments"
+                    android:layout_marginStart="6dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+            <!-- RecyclerView untuk Answers -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/commentsRecyclerView"
+                android:id="@+id/answersRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:clipToPadding="false"
-                android:scrollbars="vertical" />
+                android:layout_marginTop="16dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

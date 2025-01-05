@@ -1,16 +1,13 @@
 package com.duaduatib.eduforum.service;
 
 import com.duaduatib.eduforum.model.Authentikasi;
-import com.duaduatib.eduforum.model.Comment;
 import com.duaduatib.eduforum.model.Dosen;
 import com.duaduatib.eduforum.model.IdTokenRequest;
 import com.duaduatib.eduforum.model.Mahasiswa;
 import com.duaduatib.eduforum.model.ApiResponse;
-import com.duaduatib.eduforum.model.Post;
 import com.duaduatib.eduforum.model.PostResponse;
 import com.duaduatib.eduforum.model.ProfileResponse;
-
-import java.util.List;
+import com.duaduatib.eduforum.model.ResponseData;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -54,7 +51,7 @@ public interface ApiService {
     Call<PostResponse> getPostDetail(@Query("id") String postId);
 
     @GET("posts/answers")
-    Call<List<Comment>> getPostComments(@Query("post_id") String postId);
+    Call<ResponseData> getPosts();
 
 
 }
