@@ -54,8 +54,6 @@ dependencies {
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
 
-
-
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
 
@@ -67,5 +65,7 @@ dependencies {
 
     implementation ("com.google.code.gson:gson:2.10")
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("jp.wasabeef:picasso-transformations:2.4.0")
+
 
 }

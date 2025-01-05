@@ -4,7 +4,7 @@ public class Data {
 
     private String access_token;
 
-    public String getAccessToken() {
+    public String getAccess_Token() {
         return access_token;
     }
 }

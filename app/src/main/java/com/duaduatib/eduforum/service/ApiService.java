@@ -6,14 +6,15 @@ import com.duaduatib.eduforum.model.IdTokenRequest;
 import com.duaduatib.eduforum.model.Mahasiswa;
 import com.duaduatib.eduforum.model.ApiResponse;
 import com.duaduatib.eduforum.model.ProfileResponse;
-import com.duaduatib.eduforum.model.Data;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.PUT;
 
 public interface ApiService {
     @POST("/users/mahasiswa")
@@ -25,15 +26,18 @@ public interface ApiService {
     @POST("/users/auth")
     Call<Authentikasi> authentikasiAuth(@Body Authentikasi authentikasi);
 
-    @GET("/users/auth/verify")
-    Call<Authentikasi> verifyAuth(@Path("access_token") Authentikasi verify);
-
     @POST("/users/oauth/google")
     Call<ApiResponse> loginWithGoogle(@Body IdTokenRequest request);
 
     @GET("/users/profile")
     Call<ProfileResponse> getUserProfile();
 
-    @GET ("/users/auth/verify")
+    @GET("/users/auth/verify")
     Call<ApiResponse> validateToken(@Header("Authorization") String token);
+
+    @PUT("users/profile")
+    Call<ResponseBody> updateUserProfile(
+            @Header("Authorization") String authorization,
+            @Body RequestBody requestBody
+    );
 }

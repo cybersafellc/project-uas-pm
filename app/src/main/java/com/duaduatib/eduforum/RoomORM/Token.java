@@ -9,10 +9,16 @@ public class Token {
     private int id;
     private String accessToken;
 
-    public Token(String accessToken) {
-        this.accessToken = accessToken;
+    // Konstruktor default (tetap ada jika diperlukan)
+    public Token() {
     }
 
+    // Konstruktor baru untuk menerima accessToken
+    public Token(String access_Token) {
+        this.accessToken = access_Token;
+    }
+
+    // Getter dan Setter
     public int getId() {
         return id;
     }
@@ -28,5 +34,5 @@ public class Token {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-}
 
+}

@@ -2,6 +2,7 @@ package com.duaduatib.eduforum;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,6 +74,7 @@ public class daftar_mahasiswa_page extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
+                            Log.d("Daftar", response.toString());
                             Toast.makeText(daftar_mahasiswa_page.this, "Pendaftaran gagal: " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
