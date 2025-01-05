@@ -19,7 +19,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="32dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
@@ -29,20 +29,22 @@
 
             <ImageButton
                 android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.045"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/close_button" />
 
             <TextView
                 android:id="@+id/textProfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="80dp"
                 android:text="Profile Saya"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -52,12 +54,15 @@
 
             <EditText
                 android:id="@+id/editUsername"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:background="@drawable/input_bg"
                 android:layout_marginTop="32dp"
                 android:ems="10"
                 android:hint="Username"
                 android:inputType="text"
+                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,8 +70,10 @@
 
             <EditText
                 android:id="@+id/editNamaLengkap"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:background="@drawable/input_bg"
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="Nama Lengkap"
@@ -78,8 +85,10 @@
 
             <EditText
                 android:id="@+id/editNIM"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:background="@drawable/input_bg"
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="NIM"
@@ -91,8 +100,10 @@
 
             <EditText
                 android:id="@+id/editAsalPT"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:background="@drawable/input_bg"
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="Asal Perguruan Tinggi"
@@ -104,9 +115,9 @@
 
             <Button
                 android:id="@+id/btnSimpanEditProfil"
-                android:layout_width="250dp"
+                android:layout_width="350dp"
                 android:layout_height="70dp"
-                android:text="Button"
+                android:text="Simpan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editAsalPT"

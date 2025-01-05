@@ -3,12 +3,10 @@ package com.duaduatib.eduforum;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.duaduatib.eduforum.RoomORM.AppDatabase;
@@ -19,12 +17,12 @@ import com.duaduatib.eduforum.model.ApiResponse;
 import com.duaduatib.eduforum.model.IdTokenRequest;
 
 import com.duaduatib.eduforum.service.ApiService;
-import com.duaduatib.eduforum.model.Data;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.common.api.ApiException;
+
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -155,13 +153,16 @@ public class welcome_page extends AppCompatActivity {
         if (requestCode == REQ_ONE_TAP) {
             try {
                 SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
-                String idToken = credential.getGoogleIdToken();
+                String googleIdToken = credential.getGoogleIdToken();
 
-                if (idToken != null) {
-                    AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
+                if (googleIdToken != null) {
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null);
+
                     firebaseAuth.signInWithCredential(firebaseCredential)
                             .addOnCompleteListener(this, task -> {
                                 if (task.isSuccessful()) {
+                                    // Dapatkan Firebase ID Token
                                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
                                     // Retrofit instance
@@ -170,72 +171,84 @@ public class welcome_page extends AppCompatActivity {
                                             .addConverterFactory(GsonConverterFactory.create())
                                             .build();
 
-                                    // API service
-                                    ApiService apiService = retrofit.create(ApiService.class);
+                                    if (user != null) {
+                                        user.getIdToken(true).addOnCompleteListener(tokenTask -> {
+                                            if (tokenTask.isSuccessful()) {
+                                                // Ini adalah Firebase ID Token
+                                                String firebaseIdToken = tokenTask.getResult().getToken();
+                                                Log.d("FirebaseIDToken", firebaseIdToken);
 
-                                    // Request body
-                                    IdTokenRequest idTokenRequest = new IdTokenRequest(idToken);
+                                                // API service
+                                                ApiService apiService = retrofit.create(ApiService.class);
 
-                                    // API call
-                                    Call<ApiResponse> call = apiService.loginWithGoogle(idTokenRequest);
-                                    call.enqueue(new Callback<ApiResponse>() {
-                                        @Override
-                                        public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                                            if (response.isSuccessful() && response.body() != null) {
-                                                // Menampilkan pesan sukses ke Logcat dan Toast
-                                                Log.d("API Response", "Success: " + response.body().getMessage());
-                                                Toast.makeText(welcome_page.this, "API Success: " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                                // Request body
+                                                IdTokenRequest idTokenRequest = new IdTokenRequest(firebaseIdToken);
 
-                                                // Ambil access token dari data respons
-                                                String accessToken = response.body().getData().getAccessToken();
-                                                Log.d("Access Token", "Token: " + accessToken);
+                                                // API call
+                                                Call<ApiResponse> call = apiService.loginWithGoogle(idTokenRequest);
+                                                call.enqueue(new Callback<ApiResponse>() {
+                                                    @Override
+                                                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                                                        if (response.isSuccessful() && response.body() != null) {
+                                                            // Menampilkan pesan sukses ke Logcat dan Toast
+                                                            Log.d("API Response", "Success: " + response.body().getMessage());
 
-                                                // Simpan access token ke database Room
-                                                new Thread(() -> {
-                                                    AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-                                                    TokenDao tokenDao = db.tokenDao();
+                                                            // Ambil access token dari data respons
+                                                            String accessToken = response.body().getData().getAccess_Token();
+                                                            Log.d("Access Token", "Token: " + accessToken);
 
-                                                    // Hapus token lama jika ada
-                                                    tokenDao.deleteAllTokens();
+                                                            // Simpan access token ke database Room
+                                                            new Thread(() -> {
+                                                                AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+                                                                TokenDao tokenDao = db.tokenDao();
 
-                                                    // Simpan token baru
-                                                    tokenDao.insert(new Token(accessToken));
-                                                    Log.d("RoomDB", "Token disimpan ke database");
-                                                }).start();
+                                                                // Hapus token lama jika ada
+                                                                tokenDao.deleteAllTokens();
 
-                                                // Ambil token dari database
-                                                new Thread(() -> {
-                                                    AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-                                                    TokenDao tokenDao = db.tokenDao();
+                                                                // Simpan token baru
+                                                                tokenDao.insert(new Token(accessToken));
+                                                                Log.d("RoomDB", "Token disimpan ke database");
+                                                            }).start();
 
-                                                    Token token = tokenDao.getLastToken();
-                                                    if (token != null) {
-                                                        Log.d("RoomDB", "Token dari database: " + token.getAccessToken());
-                                                    } else {
-                                                        Log.d("RoomDB", "Tidak ada token yang tersimpan");
+                                                            // Ambil token dari database
+                                                            new Thread(() -> {
+                                                                AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+                                                                TokenDao tokenDao = db.tokenDao();
+
+                                                                Token token = tokenDao.getLastToken();
+                                                                if (token != null) {
+                                                                    Log.d("RoomDB", "Token dari database: " + token.getAccessToken());
+                                                                } else {
+                                                                    Log.d("RoomDB", "Tidak ada token yang tersimpan");
+                                                                }
+                                                            }).start();
+
+                                                            Toast.makeText(welcome_page.this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+                                                            // Navigasi ke halaman Beranda
+                                                            Intent i = new Intent(getApplicationContext(), beranda.class);
+                                                            startActivity(i);
+                                                        } else {
+                                                            Log.e("API Response", "Error: " + response.errorBody());
+                                                            Toast.makeText(welcome_page.this, "Login Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
-                                                }).start();
 
-                                                Toast.makeText(welcome_page.this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                                                    @Override
+                                                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                                                        Log.e("API Response", "Failure: " + t.getMessage());
+                                                        Toast.makeText(welcome_page.this, "API Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
 
-                                                // Navigasi ke halaman Beranda
-                                                Intent i = new Intent(getApplicationContext(), beranda.class);
-                                                startActivity(i);
                                             } else {
-                                                Log.e("API Response", "Error: " + response.errorBody());
-                                                Toast.makeText(welcome_page.this, "API Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                                                Log.e("TokenError", "Gagal mendapatkan Firebase ID Token", tokenTask.getException());
                                             }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<ApiResponse> call, Throwable t) {
-                                            Log.e("API Response", "Failure: " + t.getMessage());
-                                            Toast.makeText(welcome_page.this, "API Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
+                                        });
+                                    }
                                 } else {
                                     Toast.makeText(welcome_page.this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                                    Log.e("AuthError", "Gagal autentikasi Firebase", task.getException());
                                 }
                             });
                 }

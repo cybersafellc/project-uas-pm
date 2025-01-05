@@ -6,7 +6,6 @@ public class ApiResponse {
     private Data data;
     private boolean error;
 
-
     public int getStatus() {
         return status;
     }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btnMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -31,26 +31,8 @@
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         tools:layout_editor_absoluteX="411dp"
-        app:layout_constraintTop_toBottomOf="@id/tombolSearch"
+        app:layout_constraintTop_toBottomOf="@id/btnMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <SearchView
-        android:id="@+id/tombolSearch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@id/imageButton"
-        app:layout_constraintRight_toLeftOf="@id/btnProfil"
-        app:layout_constraintTop_toTopOf="parent"
-        android:iconifiedByDefault="false"
-        android:searchHintIcon="@null"
-        android:queryHint="Search..."
-        android:focusable="false"
-        android:closeIcon="@drawable/baseline_clear_24"
-        android:searchIcon="@drawable/baseline_search_24"
-        android:background="@drawable/search_bkg"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

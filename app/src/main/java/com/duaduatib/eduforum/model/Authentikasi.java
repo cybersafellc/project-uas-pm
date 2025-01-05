@@ -1,9 +1,11 @@
 package com.duaduatib.eduforum.model;
 
 public class Authentikasi {
+
     public String username;
     public String password;
     public String access_token;
+    public Data data;
 
     public String getUsername() {
         return username;
@@ -27,5 +29,9 @@ public class Authentikasi {
 
     public void setAccess_token(String access_token) {
         this.access_token = access_token;
+    }
+
+    public Data getData() {
+        return data;
     }
 }
