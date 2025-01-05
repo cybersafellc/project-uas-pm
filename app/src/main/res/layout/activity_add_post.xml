@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F7FA">
+
+    <EditText
+        android:id="@+id/editTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Judul"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:inputType="text"
+        android:background="@drawable/comment_bar"
+        android:textColor="@color/black"/>
+
+    <EditText
+        android:id="@+id/editContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Konten"
+        android:padding="10dp"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:background="@drawable/comment_bar"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:id="@+id/btnAddImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_add_image"
+        android:contentDescription="Add Image"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"/>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:backgroundTint="#2B87FF"
+        android:textColor="@color/white"/>
+</LinearLayout>

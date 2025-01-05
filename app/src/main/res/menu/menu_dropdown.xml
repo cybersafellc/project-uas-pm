@@ -6,6 +6,10 @@
         android:title="Profile"
         android:icon="@drawable/ic_account" />
     <item
+        android:id="@+id/menu_add_post"
+        android:title="Tambah Post"
+        android:icon="@drawable/ic_add_post" />
+    <item
         android:id="@+id/menu_logout"
         android:title="Log Out"
         android:icon="@drawable/ic_logout" />
