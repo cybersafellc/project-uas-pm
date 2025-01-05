@@ -33,7 +33,7 @@
         <activity android:name=".daftar_mahasiswa_page"></activity>
         <activity android:name=".beranda"></activity>
         <activity android:name=".profil_user"></activity>
-        <activity android:name=".post_text"></activity>
+        <activity android:name=".DetailPostActivity"></activity>
     </application>
 
 </manifest>

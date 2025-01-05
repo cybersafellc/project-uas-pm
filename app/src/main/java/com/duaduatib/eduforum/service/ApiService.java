@@ -1,11 +1,16 @@
 package com.duaduatib.eduforum.service;
 
 import com.duaduatib.eduforum.model.Authentikasi;
+import com.duaduatib.eduforum.model.Comment;
 import com.duaduatib.eduforum.model.Dosen;
 import com.duaduatib.eduforum.model.IdTokenRequest;
 import com.duaduatib.eduforum.model.Mahasiswa;
 import com.duaduatib.eduforum.model.ApiResponse;
+import com.duaduatib.eduforum.model.Post;
+import com.duaduatib.eduforum.model.PostResponse;
 import com.duaduatib.eduforum.model.ProfileResponse;
+
+import java.util.List;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -15,6 +20,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @POST("/users/mahasiswa")
@@ -40,4 +46,15 @@ public interface ApiService {
             @Header("Authorization") String authorization,
             @Body RequestBody requestBody
     );
+
+    @GET("posts")
+    Call<ApiResponse> getPosts(@Query("take") int take);
+
+    @GET("posts")
+    Call<PostResponse> getPostDetail(@Query("id") String postId);
+
+    @GET("posts/answers")
+    Call<List<Comment>> getPostComments(@Query("post_id") String postId);
+
+
 }
